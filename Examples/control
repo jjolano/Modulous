@@ -1,0 +1,9 @@
+Package: me.jjolano.modulousexample
+Name: ModulousExample
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An example tweak to demonstrate the Modulous framework.
+Maintainer: jjolano
+Author: jjolano
+Section: Tweaks
+Depends: me.jjolano.fmwk.modulous

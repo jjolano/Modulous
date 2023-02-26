@@ -1,0 +1,9 @@
+Package: me.jjolano.modulousexample
+Name: ExampleModule
+Depends: me.jjolano.fmwk.modulous
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: Example module for Modulous framework.
+Maintainer: jjolano
+Author: jjolano
+Section: Modulous (Modules)
