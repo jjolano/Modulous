@@ -2,7 +2,7 @@
 #import <Modulous/Module.h>
 
 @implementation ModulousLoader {
-    NSArray<ModulousModule *>* _modules;
+    NSDictionary<NSString *, ModulousModule *>* _modules;
 }
 
 + (instancetype)loaderWithURL:(NSURL *)url {
@@ -20,27 +20,35 @@
     NSArray<NSURL *>* bundle_urls = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:url includingPropertiesForKeys:@[] options:0 error:nil];
 
     if(bundle_urls) {
-        NSMutableArray<ModulousModule *>* modules = [NSMutableArray new];
+        NSMutableDictionary<NSString *, ModulousModule *>* modules = [NSMutableDictionary new];
 
         for(NSURL* bundle_url in bundle_urls) {
             ModulousModule* module = [ModulousModule bundleWithURL:bundle_url];
-            [modules addObject:module];
+
+            if(module && [module bundleIdentifier]) {
+                if([modules objectForKey:[module bundleIdentifier]] || [_modules objectForKey:[module bundleIdentifier]]) {
+                    NSLog(@"[ModulousLoader] warning: skipping duplicate bundle identifier %@", [module bundleIdentifier]);
+                    continue;
+                }
+
+                [modules setObject:module forKey:[module bundleIdentifier]];
+            }
         }
 
-        _modules = [_modules arrayByAddingObjectsFromArray:[modules copy]];
+        _modules = [modules copy];
     }
 }
 
 - (NSArray<NSDictionary *> *)getModuleInfo {
     NSMutableArray<NSDictionary *>* infos = [NSMutableArray new];
 
-    for(ModulousModule* module in _modules) {
+    [_modules enumerateKeysAndObjectsUsingBlock:^(NSString* key, ModulousModule* module, BOOL* stop) {
         NSDictionary* info = [module infoDictionary];
 
         if(info) {
             [infos addObject:info];
         }
-    }
+    }];
 
     return [infos copy];
 }
@@ -48,10 +56,10 @@
 - (NSArray<NSDictionary *> *)getModuleInfoWithIdentifers:(NSArray<NSString *> *)identifiers {
     NSMutableArray<NSDictionary *>* infos = [NSMutableArray new];
 
-    for(ModulousModule* module in _modules) {
-        NSString* identifier = [[module infoDictionary] objectForKey:@"CFBundleIdentifier"];
+    for(NSString* identifier in identifiers) {
+        ModulousModule* module = [_modules objectForKey:identifier];
 
-        if(identifier && [identifiers containsObject:identifier]) {
+        if(module) {
             NSDictionary* info = [module infoDictionary];
 
             if(info) {
@@ -64,16 +72,16 @@
 }
 
 - (void)loadModules {
-    for(ModulousModule* module in _modules) {
+    [_modules enumerateKeysAndObjectsUsingBlock:^(NSString* key, ModulousModule* module, BOOL* stop) {
         [module loadModule];
-    }
+    }];
 }
 
 - (void)loadModulesWithIdentifiers:(NSArray<NSString *> *)identifiers {
-    for(ModulousModule* module in _modules) {
-        NSString* identifier = [[module infoDictionary] objectForKey:@"CFBundleIdentifier"];
+    for(NSString* identifier in identifiers) {
+        ModulousModule* module = [_modules objectForKey:identifier];
 
-        if(identifier && [identifiers containsObject:identifier]) {
+        if(module) {
             [module loadModule];
         }
     }
@@ -81,7 +89,7 @@
 
 - (instancetype)init {
     if((self = [super init])) {
-        _modules = @[];
+        _modules = @{};
     }
 
     return self;

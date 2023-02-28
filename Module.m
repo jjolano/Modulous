@@ -1,22 +1,35 @@
 #import <Modulous/Module.h>
 #import <dlfcn.h>
 
-@implementation ModulousModule
+@implementation ModulousModule {
+    void* _handle;
+}
+
 - (BOOL)loadModule {
-    NSString* module_executable = [[self infoDictionary] objectForKey:@"CFBundleExecutable"];
+    if(_handle) {
+        // already loaded
+        return YES;
+    }
+
+    NSString* module_executable = [self executablePath];
 
     if(module_executable) {
-        NSString* module_path = [[self bundlePath] stringByAppendingPathComponent:module_executable];
+        _handle = dlopen([module_executable fileSystemRepresentation], RTLD_LAZY);
 
-        if(module_path) {
-            void* handle = dlopen([module_path fileSystemRepresentation], RTLD_LAZY);
-
-            if(handle) {
-                return YES;
-            }
+        if(_handle) {
+            NSLog(@"[ModulousModule] module '%@' loaded", [self bundleIdentifier]);
+            return YES;
         }
     }
 
     return NO;
+}
+
+- (instancetype)init {
+    if((self = [super init])) {
+        _handle = NULL;
+    }
+
+    return self;
 }
 @end
