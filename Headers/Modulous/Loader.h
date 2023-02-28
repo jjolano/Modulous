@@ -7,6 +7,9 @@
 + (instancetype)loaderWithURL:(NSURL *)url;
 + (instancetype)loaderWithPath:(NSString *)path;
 
+- (NSArray<NSDictionary *> *)getModuleInfo;
+- (NSArray<NSDictionary *> *)getModuleInfoWithIdentifers:(NSArray<NSString *> *)identifiers;
+
 - (void)loadModules;
 - (void)loadModulesWithIdentifiers:(NSArray<NSString *> *)identifiers;
 @end
