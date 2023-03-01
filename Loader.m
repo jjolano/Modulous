@@ -12,7 +12,7 @@
 }
 
 + (instancetype)loaderWithPath:(NSString *)path {
-    NSURL* file_url = [NSURL fileURLWithPath:path];
+    NSURL* file_url = [NSURL fileURLWithPath:path isDirectory:YES];
     return [self loaderWithURL:file_url];
 }
 
