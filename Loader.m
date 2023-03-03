@@ -1,6 +1,8 @@
 #import <Modulous/Loader.h>
 #import <Modulous/Module.h>
 
+#import <dlfcn.h>
+
 @implementation ModulousLoader {
     NSDictionary<NSString *, ModulousModule *>* _modules;
 }
@@ -31,7 +33,10 @@
                     continue;
                 }
 
-                [modules setObject:module forKey:[module bundleIdentifier]];
+                // only add if module can be loaded successfully
+                if(dlopen_preflight([[module executablePath] fileSystemRepresentation])) {
+                    [modules setObject:module forKey:[module bundleIdentifier]];
+                }
             }
         }
 
