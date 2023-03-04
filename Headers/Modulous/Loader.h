@@ -2,8 +2,11 @@
 #define modulous_loader_h
 
 #import <Foundation/Foundation.h>
+#import <Modulous/Module.h>
 
 @interface ModulousLoader : NSObject
+@property (nonatomic, readonly) NSDictionary<NSString *, ModulousModule *>* _modules;
+
 + (instancetype)loaderWithURL:(NSURL *)url;
 + (instancetype)loaderWithPath:(NSString *)path;
 

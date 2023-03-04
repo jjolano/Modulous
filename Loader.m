@@ -1,11 +1,8 @@
 #import <Modulous/Loader.h>
 #import <Modulous/Module.h>
 
-#import <dlfcn.h>
-
-@implementation ModulousLoader {
-    NSDictionary<NSString *, ModulousModule *>* _modules;
-}
+@implementation ModulousLoader
+@synthesize _modules;
 
 + (instancetype)loaderWithURL:(NSURL *)url {
     ModulousLoader* loader = [self new];
@@ -28,15 +25,12 @@
             ModulousModule* module = [ModulousModule bundleWithURL:bundle_url];
 
             if(module && [module bundleIdentifier]) {
-                if([modules objectForKey:[module bundleIdentifier]] || [_modules objectForKey:[module bundleIdentifier]]) {
+                if([modules objectForKey:[module bundleIdentifier]]) {
                     NSLog(@"[ModulousLoader] warning: skipping duplicate bundle identifier %@", [module bundleIdentifier]);
                     continue;
                 }
 
-                // only add if module can be loaded successfully
-                if(dlopen_preflight([[module executablePath] fileSystemRepresentation])) {
-                    [modules setObject:module forKey:[module bundleIdentifier]];
-                }
+                [modules setObject:module forKey:[module bundleIdentifier]];
             }
         }
 

@@ -17,7 +17,7 @@
         _handle = dlopen([module_executable fileSystemRepresentation], RTLD_LAZY);
 
         if(_handle) {
-            NSLog(@"[ModulousModule] module '%@' loaded", [self bundleIdentifier]);
+            NSLog(@"[Modulous] module '%@' loaded", [self bundleIdentifier]);
             return YES;
         }
     }
