@@ -32,10 +32,10 @@
                     continue;
                 }
 
-                if(!dlopen_preflight([[module executablePath] fileSystemRepresentation])) {
-                    NSLog(@"[ModulousLoader] warning: dlopen_preflight failed on bundle identifier %@", [module bundleIdentifier]);
-                    continue;
-                }
+                // if(!dlopen_preflight([[module executablePath] fileSystemRepresentation])) {
+                //     NSLog(@"[ModulousLoader] warning: dlopen_preflight failed on bundle identifier %@", [module bundleIdentifier]);
+                //     continue;
+                // }
 
                 [modules setObject:module forKey:[module bundleIdentifier]];
             }
