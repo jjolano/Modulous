@@ -1,9 +1,7 @@
 #import <Modulous/Module.h>
 #import <dlfcn.h>
 
-@implementation ModulousModule {
-    void* _handle;
-}
+@implementation ModulousModule
 
 - (BOOL)loadModule {
     if(_handle) {
@@ -32,4 +30,5 @@
 
     return self;
 }
+
 @end

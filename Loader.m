@@ -1,6 +1,8 @@
 #import <Modulous/Loader.h>
 #import <Modulous/Module.h>
 
+#import <dlfcn.h>
+
 @implementation ModulousLoader
 @synthesize _modules;
 
@@ -27,6 +29,11 @@
             if(module && [module bundleIdentifier]) {
                 if([modules objectForKey:[module bundleIdentifier]]) {
                     NSLog(@"[ModulousLoader] warning: skipping duplicate bundle identifier %@", [module bundleIdentifier]);
+                    continue;
+                }
+
+                if(!dlopen_preflight([[module executablePath] fileSystemRepresentation])) {
+                    NSLog(@"[ModulousLoader] warning: dlopen_preflight failed on bundle identifier %@", [module bundleIdentifier]);
                     continue;
                 }
 

@@ -3,7 +3,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ModulousModule : NSBundle
+@interface ModulousModule : NSBundle {
+    void* _handle;
+}
+
 - (BOOL)loadModule;
 @end
 #endif
