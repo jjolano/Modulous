@@ -5,7 +5,7 @@
 #import <Modulous/Module.h>
 
 @interface ModulousLoader : NSObject
-@property (nonatomic, readonly) NSDictionary<NSString *, ModulousModule *>* _modules;
+@property (strong, nonatomic, readonly) NSDictionary<NSString *, ModulousModule *>* _modules;
 
 + (instancetype)loaderWithURL:(NSURL *)url;
 + (instancetype)loaderWithPath:(NSString *)path;
