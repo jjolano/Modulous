@@ -8,6 +8,8 @@ cd $PWD
 rm -rf $PWD/build
 mkdir -p $PWD/build
 
+rm -rf $THEOS/lib/Modulous.framework
+
 # build main project (rootless ver.)
 make clean &&
 THEOS_PACKAGE_SCHEME=rootless ARCHS="arm64 arm64e" TARGET=iphone:clang:latest:14.0 make package FINALPACKAGE=1 &&
