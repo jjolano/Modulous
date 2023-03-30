@@ -1,7 +1,7 @@
 Package: me.jjolano.fmwk.modulous
 Name: Modulous Framework
 Depends: firmware (>= 8.0)
-Version: 1.0.6
+Version: 1.0.7
 Architecture: iphoneos-arm
 Description: An iOS developer framework for modular software.
 Maintainer: jjolano
