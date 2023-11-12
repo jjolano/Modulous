@@ -9,7 +9,7 @@ TWEAK_NAME = ModulousExample
 ModulousExample_FILES = Tweak.x
 ModulousExample_CFLAGS = -fobjc-arc
 ModulousExample_CFLAGS += -Ivendor/Modulous.framework/Headers
-ModulousExample_LDFLAGS = -rpath /Library/Frameworks -rpath /var/jb/Library/Frameworks -rpath /usr/lib -rpath /var/jb/usr/lib
+ModulousExample_LDFLAGS = -rpath /Library/Frameworks -rpath /var/jb/Library/Frameworks -rpath @loader_path/.jbroot/Library/Frameworks -rpath /usr/lib -rpath /var/jb/usr/lib -rpath @loader_path/.jbroot/usr/lib
 ModulousExample_LDFLAGS += -Fvendor
 ModulousExample_EXTRA_FRAMEWORKS = Modulous
 
